@@ -1,0 +1,77 @@
+---------------------------2019/12/2------------------
+
+typescript：接口就是对象的属性，对象上的方法也可以做类型检查
+
+//用ts定义接口
+import * as React from 'react'
+interface IProps {
+ logo?: string
+ className?: string
+ alt?: string
+}
+export const Logo = (props: IProps) => {
+ const { logo, className, alt } = props
+ return (
+ <img src={logo} className={className} alt={alt} />
+ )
+}
+
+state: 用于改变组件内容状态的值(动态)
+props: 用于组件通信进行传值
+
+// 父组件
+class Parent extends React.Component {
+  testRef=(ref)=>{
+    this.child = ref
+    console.log(ref) // -> 获取整个Child元素
+  }
+  handleClick=()=>{
+    alert(this.child.state.info) // -> 通过this.child可以拿到child所有状态和方法
+  }
+  render() {
+    return <div>
+      <Child onRef={this.testRef} />
+      <button onClick={this.handleClick}>父组件按钮</button>
+    </div>
+  }
+}
+
+// 子组件
+class Child extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      info:'快点击子组件按钮哈哈哈'
+    }
+  }
+  componentDidMount(){
+    this.props.onRef(this)
+    console.log(this) // ->将child传递给this.props.onRef()方法
+  }
+  handleChildClick=()=>{
+    this.setState({info:'通过父组件按钮获取到子组件信息啦啦啦'})
+  } 
+  render(){
+    return <button onClick={this.handleChildClick}>子组件按钮</button>
+  }
+}
+
+let bankUser = mobx.observable({
+  name:'ZhangSan',
+  income 3,
+  debt: 2
+});
+
+var divisor = mobx.computed(() => {
+  return bankUser.income / bankUser.debt;
+});
+
+mobx.autorun() =>{
+  console.log('ZhangSan Banking Info: ', bankUser.income);
+}
+
+非稳态信息逐层上传
+
+简单组件就是函数声明function TableHead(props)
+简单组件不需要在render()方法中去return元素，直觉返回react元素
+在简单函数里，props是作为一个参数传入的，所以直接通过props.key获取，但是在class里面，props是继承于Compoent，需要通过super()方法，调用是通过this.props.key
