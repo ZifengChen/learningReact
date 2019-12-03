@@ -73,5 +73,37 @@ mobx.autorun() =>{
 非稳态信息逐层上传
 
 简单组件就是函数声明function TableHead(props)
-简单组件不需要在render()方法中去return元素，直觉返回react元素
+简单组件不需要在render()方法中去return元素，直接返回react元素
 在简单函数里，props是作为一个参数传入的，所以直接通过props.key获取，但是在class里面，props是继承于Compoent，需要通过super()方法，调用是通过this.props.key
+
+
+---------------------------2019/12/3------------------
+
+class Husky extends Dog {
+    constructor (name: string) {
+        super(name)
+    }
+}
+
+类的继承使用了extends关键字
+类的构造函数constructor中调用了super,代表父类实例
+父类Dog的构造函数中有一个参数name,所以子类也必须要有具有此参数
+
+class Husky extends Dog {
+    constructor (name: string, color: string) {
+        super(name)
+        this.color = color
+    }
+    color: string
+}
+
+受保护成员protected,只能在类或子类中被访问,不能在类实例中被访问
+
+和实例属性一样,类的只读属性必须被初始化
+
+类型T不需要预先指定,相当于any,保证输入参数和返回值的一致性
+
+function log<T>(value: T): T{
+    return value
+}
+//
